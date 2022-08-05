@@ -1,20 +1,35 @@
-import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+import { AppDataSource } from "./data-source";
+import { User } from "./entity/User";
+import "reflect-metadata";
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
+const { buildSchema } = require("type-graphql");
+const { UserResolver } = require("./UserResolver");
 
-AppDataSource.initialize().then(async () => {
+(async () => {
+    const app = express();
+    app.get("/", (req, res) => res.send("Hello"));
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
+    AppDataSource.initialize();
 
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
+    const schema = await buildSchema({
+        resolvers: [UserResolver],
+    });
 
-    console.log("Here you can setup and run express / fastify / any other framework.")
+    const apploServer = new ApolloServer({
+        schema,
+        playground: true,
+    });
+    await apploServer.start();
+    apploServer.applyMiddleware({ app });
 
-}).catch(error => console.log(error))
+    app.listen(4000, () => {
+        console.log("Express Server running");
+    });
+})();
+
+// AppDataSource.initialize()
+//     .then(async () => {
+//         console.log("Connecting database...");
+//     })
+//     .catch((error) => console.log(error));
