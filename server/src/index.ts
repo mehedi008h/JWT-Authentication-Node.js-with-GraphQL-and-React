@@ -1,5 +1,5 @@
 import { AppDataSource } from "./data-source";
-import { User } from "./entity/User";
+import "dotenv/config";
 import "reflect-metadata";
 const express = require("express");
 const cookieParser = require("cookie-parser");
