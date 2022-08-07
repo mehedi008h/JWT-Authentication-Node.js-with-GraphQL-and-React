@@ -1,12 +1,33 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { setAccessToken } from "../accessToken";
+import { useLoginMutation } from "../generated/graphql";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [login] = useLoginMutation();
+
+    let navigate = useNavigate();
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        const response = await login({
+            variables: {
+                email,
+                password,
+            },
+        });
+
+        if (response && response.data) {
+            setAccessToken(response.data.login.accessToken);
+        }
+        console.log(response);
+
+        // navigate to home page
+        navigate("/");
     };
     return (
         <div className="bg min-h-screen flex justify-center items-center">

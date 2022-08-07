@@ -6,6 +6,7 @@ import { User } from "./entity/User";
 import { sendRefreshToken } from "./sendRefreshToken";
 import { createAccessToken, createRefreshToken } from "./auth";
 const express = require("express");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { ApolloServer } = require("apollo-server-express");
 const { buildSchema } = require("type-graphql");
@@ -13,6 +14,12 @@ const { UserResolver } = require("./UserResolver");
 
 (async () => {
     const app = express();
+    app.use(
+        cors({
+            origin: "http://localhost:3000",
+            credentials: true,
+        })
+    );
     app.use(cookieParser());
 
     app.get("/", (req, res) => res.send("Hello"));
@@ -62,7 +69,7 @@ const { UserResolver } = require("./UserResolver");
         context: ({ req, res }) => ({ req, res }),
     });
     await apploServer.start();
-    apploServer.applyMiddleware({ app });
+    apploServer.applyMiddleware({ app, cors: false });
 
     app.listen(4000, () => {
         console.log("Express Server running");
