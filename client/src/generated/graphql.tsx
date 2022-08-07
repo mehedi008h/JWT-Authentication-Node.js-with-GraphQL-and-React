@@ -38,6 +38,7 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   email: Scalars['String'];
+  name: Scalars['String'];
   password: Scalars['String'];
 };
 
@@ -58,6 +59,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type ByeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -76,7 +78,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', id: number, email: string } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', accessToken: string, user: { __typename?: 'User', id: number, name: string, email: string } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -86,9 +88,10 @@ export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, email: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, name: string, email: string } | null };
 
 export type RegisterMutationVariables = Exact<{
+  name: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
@@ -99,7 +102,7 @@ export type RegisterMutation = { __typename?: 'Mutation', register: boolean };
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: number, email: string }> };
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: number, name: string, email: string }> };
 
 
 export const ByeDocument = gql`
@@ -172,6 +175,7 @@ export const LoginDocument = gql`
     accessToken
     user {
       id
+      name
       email
     }
   }
@@ -238,6 +242,7 @@ export const MeDocument = gql`
     query Me {
   me {
     id
+    name
     email
   }
 }
@@ -270,8 +275,8 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!) {
-  register(email: $email, password: $password)
+    mutation Register($name: String!, $email: String!, $password: String!) {
+  register(name: $name, email: $email, password: $password)
 }
     `;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
@@ -289,6 +294,7 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * @example
  * const [registerMutation, { data, loading, error }] = useRegisterMutation({
  *   variables: {
+ *      name: // value for 'name'
  *      email: // value for 'email'
  *      password: // value for 'password'
  *   },
@@ -305,6 +311,7 @@ export const UsersDocument = gql`
     query Users {
   users {
     id
+    name
     email
   }
 }

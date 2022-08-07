@@ -36,7 +36,6 @@ export class UserResolver {
     @Query(() => String)
     @UseMiddleware(isAuth)
     bye(@Ctx() { payload }: MyContext) {
-        console.log(payload);
         return `Your user id is: ${payload!.userId}`;
     }
 
@@ -61,7 +60,8 @@ export class UserResolver {
                 token,
                 process.env.ACCESS_TOKEN_SECRET!
             );
-            return User.findOne(payload.userId);
+
+            return User.findOneBy(payload.userId);
         } catch (err) {
             console.log(err);
             return null;
@@ -111,6 +111,7 @@ export class UserResolver {
     // register
     @Mutation(() => Boolean)
     async register(
+        @Arg("name") name: string,
         @Arg("email") email: string,
         @Arg("password") password: string
     ) {
@@ -118,6 +119,7 @@ export class UserResolver {
 
         try {
             await User.insert({
+                name,
                 email,
                 password: hashedPassword,
             });

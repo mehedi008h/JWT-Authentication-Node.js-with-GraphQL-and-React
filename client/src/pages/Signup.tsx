@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../generated/graphql";
 
 const Signup = () => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -15,6 +16,7 @@ const Signup = () => {
 
         const response = await register({
             variables: {
+                name,
                 email,
                 password,
             },
@@ -22,6 +24,7 @@ const Signup = () => {
 
         // navigate to home page
         navigate("/");
+
         console.log(response);
     };
     return (
@@ -35,6 +38,14 @@ const Signup = () => {
                         onSubmit={handleSubmit}
                         className="flex flex-col gap-6"
                     >
+                        <input
+                            type="name"
+                            placeholder="Enter your name ..."
+                            value={name}
+                            name="name"
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full outline-none border px-4 py-2 rounded-full"
+                        />
                         <input
                             type="email"
                             placeholder="Enter your email ..."
