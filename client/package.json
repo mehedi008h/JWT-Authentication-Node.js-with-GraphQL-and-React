@@ -16,6 +16,7 @@
     "graphql": "^15.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "6",
     "react-scripts": "5.0.1",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
@@ -47,9 +48,9 @@
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.11.3",
-    "@types/graphql": "^14.5.0",
-    "@graphql-codegen/typescript-operations": "2.5.2",
     "@graphql-codegen/typescript": "2.7.2",
-    "@graphql-codegen/typescript-react-apollo": "3.3.2"
+    "@graphql-codegen/typescript-operations": "2.5.2",
+    "@graphql-codegen/typescript-react-apollo": "3.3.2",
+    "@types/graphql": "^14.5.0"
   }
 }
