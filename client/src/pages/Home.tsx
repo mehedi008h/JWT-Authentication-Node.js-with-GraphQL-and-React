@@ -5,7 +5,7 @@ const Home = () => {
     const { data, loading } = useHelloQuery();
     if (loading) return <div>Loading..</div>;
     return (
-        <div>
+        <div className="bg min-h-screen flex">
             <h1>{JSON.stringify(data?.hello)}</h1>
         </div>
     );

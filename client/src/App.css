@@ -1,0 +1,14 @@
+.nav {
+    background: #0b1322;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+.bg {
+    background: #f5f3ee;
+}
+
+.card {
+    background: #fff;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+}
